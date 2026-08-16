@@ -21,12 +21,12 @@ export const postStudentsController = async(req: Request, res: Response) => {
   try {
     const { nom, prenom, email } = req.body;
     if (!nom || !prenom || !email) {
-      return res.status(400).json({ error: "nom, prenom et email sont requis" });
+      return res.status(400).json({ error: "firstName, lastName and mails are required" });
     }
     const newEtudiant = await createStudent({ nom, prenom, email });
     res.status(201).json(newEtudiant);
   } catch (err) {
-    res.status(500).json({ error: "Erreur serveur" });
+    res.status(500).json({ error: "Server error" });
   }
 }
 
