@@ -7,17 +7,17 @@ import {
   updateStudent,
 } from "../service/etudiantService";
 
-export async function getAllEtudiantsController(req: Request, res: Response) {
+export const getAllEtudiantsController = async(req: Request, res: Response) => {
   const etudiants = await getAllEtudiants();
   res.json(etudiants);
 }
 
-export async function getAllNamesController(req: Request, res: Response) {
+export const getAllNamesController = async(req: Request, res: Response) => {
   const names = await getAllNames();
   res.json(names);
 }
 
-export async function postStudentsController(req: Request, res: Response) {
+export const postStudentsController = async(req: Request, res: Response) => {
   try {
     const { nom, prenom, email } = req.body;
     if (!nom || !prenom || !email) {
@@ -30,7 +30,7 @@ export async function postStudentsController(req: Request, res: Response) {
   }
 }
 
-export async function deleteEtudiantController(req: Request, res: Response) {
+export const deleteEtudiantController = async(req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
     if (isNaN(id)) return res.status(400).json({ error: "id invalide" });
@@ -41,7 +41,7 @@ export async function deleteEtudiantController(req: Request, res: Response) {
   }
 }
 
-export async function patchEtudiantController(req: Request, res: Response) {
+export const patchEtudiantController = async(req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
     if (isNaN(id)) return res.status(400).json({ error: "id invalide" });
