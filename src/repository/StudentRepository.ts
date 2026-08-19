@@ -22,10 +22,10 @@ export const findName= async (): Promise<string[]> =>{
   return resultNames.rows.map(x => x.lastName);
 }
 
-export const  insertStudent = async(etudiant: Omit<Student, "id">): Promise<Student> =>{
+export const  insertStudent = async(student: Omit<Student, "id">): Promise<Student> =>{
   const result = await pool.query(
     "INSERT INTO students (lastName, firstName, email) VALUES ($1, $2, $3) RETURNING *",
-    [etudiant.lastName, etudiant.firstName, etudiant.email]
+    [student.lastName, student.firstName, student.email]
   );
   return result.rows[0];
 }
