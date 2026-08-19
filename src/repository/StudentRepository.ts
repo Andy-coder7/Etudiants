@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import dotenv from "dotenv";
-import { Etudiant } from "../models/etudiantModels";
+import { Student } from "../models/StudentModels";
 
 dotenv.config();
 
@@ -12,34 +12,34 @@ export const pool = new Pool({
   database: process.env.DB_NAME,
 });
 
-export  const findAll = async(): Promise<Etudiant[]> => {
-  const result = await pool.query("SELECT * FROM etudiants");
+export  const findAll = async(): Promise<Student[]> => {
+  const result = await pool.query("SELECT * FROM students");
   return result.rows;
 }
 
 export const findName= async (): Promise<string[]> =>{
-  const resultNames = await pool.query("SELECT nom FROM etudiants");
-  return resultNames.rows.map(x => x.nom);
+  const resultNames = await pool.query("SELECT lastName FROM students");
+  return resultNames.rows.map(x => x.lastName);
 }
 
-export const  insertEtudiant = async(etudiant: Omit<Etudiant, "id">): Promise<Etudiant> =>{
+export const  insertStudent = async(etudiant: Omit<Student, "id">): Promise<Student> =>{
   const result = await pool.query(
-    "INSERT INTO etudiants (nom, prenom, email) VALUES ($1, $2, $3) RETURNING *",
-    [etudiant.nom, etudiant.prenom, etudiant.email]
+    "INSERT INTO students (lastName, firstName, email) VALUES ($1, $2, $3) RETURNING *",
+    [etudiant.lastName, etudiant.firstName, etudiant.email]
   );
   return result.rows[0];
 }
 
-export const  deleteEtudiant= async(id: number): Promise<void> => {
-  await pool.query("DELETE FROM etudiants WHERE id = $1", [id]);
+export const  deleteStudent= async(id: number): Promise<void> => {
+  await pool.query("DELETE FROM students WHERE id = $1", [id]);
 }
 
-export const updateEtudiant = async(id: number, etudiant: Partial<Etudiant>): Promise<Etudiant | null> => {
+export const updateStudent = async(id: number, student: Partial<Student>): Promise<Student | null> => {
   const fields: string[] = [];
   const values: any[] = [];
   let idx = 1;
 
-  for (const [key, value] of Object.entries(etudiant)) {
+  for (const [key, value] of Object.entries(student)) {
     if (key === "id") continue;
     fields.push(`${key} = $${idx}`);
     values.push(value);
@@ -50,7 +50,7 @@ export const updateEtudiant = async(id: number, etudiant: Partial<Etudiant>): Pr
 
   values.push(id);
   const result = await pool.query(
-    `UPDATE etudiants SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`,
+    `UPDATE students SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`,
     values
   );
   return result.rows[0] || null;
