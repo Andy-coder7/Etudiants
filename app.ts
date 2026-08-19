@@ -3,34 +3,34 @@ import { pool } from "./src/repository/etudiantRepository";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import {
-  getAllEtudiantsController,
+  getAllStudentsController,
   getAllNamesController,
   postStudentsController,
-  deleteEtudiantController,
-  patchEtudiantController,
-} from "./src/controller/etudiantController";
+  deleteStudentController,
+  patchStuentController,
+} from "./src/controller/StudentController";
 import { authenticateToken } from "./src/middleware/authMiddleware"; 
 dotenv.config();
 const app = express();
 app.use(express.json());
 
 app.get("/names", getAllNamesController); 
-app.get("/etudiants", authenticateToken, getAllEtudiantsController);
+app.get("/etudiants", authenticateToken, getAllStudentsController);
 app.post("/etudiants", authenticateToken, postStudentsController);
-app.delete("/etudiants/:id", authenticateToken, deleteEtudiantController);
-app.patch("/etudiants/:id", authenticateToken, patchEtudiantController);
+app.delete("/etudiants/:id", authenticateToken, deleteStudentController);
+app.patch("/etudiants/:id", authenticateToken, patchStuentController);
 app.post("/login", async (req, res) => {
   const { email } = req.body;
   try {
-    const result = await pool.query("SELECT * FROM etudiants WHERE email = $1", [email]);
+    const result = await pool.query("SELECT * FROM students WHERE email = $1", [email]);
    
     if (result.rows.length === 0) {
       return res.status(401).json({ error: "Unknown mail" });
     }
-    const etudiant = result.rows[0];
+    const student = result.rows[0];
     
     const token = jwt.sign(
-      { id: etudiant.id, email: etudiant.email }, 
+      { id: student.id, email: student.email }, 
       process.env.JWT_SECRET as string,
       { expiresIn: "2h" } 
     );
