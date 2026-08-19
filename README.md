@@ -1,4 +1,4 @@
-In this project, this dependecies are required:
+In this project, those dependecies are required:
     -dotenv
     -pg
     -jsonwebtoken
