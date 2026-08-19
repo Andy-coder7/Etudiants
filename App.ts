@@ -1,5 +1,5 @@
 import express from "express";
-import { pool } from "./src/repository/etudiantRepository";
+import { pool } from "./src/repository/StudentRepository";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import {
@@ -15,10 +15,10 @@ const app = express();
 app.use(express.json());
 
 app.get("/names", getAllNamesController); 
-app.get("/etudiants", authenticateToken, getAllStudentsController);
-app.post("/etudiants", authenticateToken, postStudentsController);
-app.delete("/etudiants/:id", authenticateToken, deleteStudentController);
-app.patch("/etudiants/:id", authenticateToken, patchStuentController);
+app.get("/students", authenticateToken, getAllStudentsController);
+app.post("/students", authenticateToken, postStudentsController);
+app.delete("/students/:id", authenticateToken, deleteStudentController);
+app.patch("/students/:id", authenticateToken, patchStuentController);
 app.post("/login", async (req, res) => {
   const { email } = req.body;
   try {
