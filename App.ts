@@ -8,6 +8,7 @@ import {
   postStudentsController,
   deleteStudentController,
   patchStuentController,
+  getStudentCountController
 } from "./src/controller/StudentController";
 import { authenticateToken } from "./src/middleware/authMiddleware"; 
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(express.json());
 app.get("/names", getAllNamesController); 
 app.get("/students", authenticateToken, getAllStudentsController);
 app.post("/students", authenticateToken, postStudentsController);
+app.get("/students/count", authenticateToken, getStudentCountController);
 app.delete("/students/:id", authenticateToken, deleteStudentController);
 app.patch("/students/:id", authenticateToken, patchStuentController);
 app.post("/login", async (req, res) => {
@@ -36,6 +38,7 @@ app.post("/login", async (req, res) => {
     );
     res.json({ token });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 });
