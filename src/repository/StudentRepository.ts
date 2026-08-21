@@ -55,3 +55,7 @@ export const updateStudent = async(id: number, student: Partial<Student>): Promi
   );
   return result.rows[0] || null;
 }
+export const countStudents = async (): Promise<number> => {
+  const result = await pool.query("SELECT COUNT(*) AS count FROM students");
+  return parseInt(result.rows[0].count, 10);
+}
