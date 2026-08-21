@@ -1,4 +1,4 @@
-import { findAll, findName, insertStudent, deleteStudent, updateStudent } from "../repository/StudentRepository";
+import { findAll, findName, insertStudent, deleteStudent, updateStudent, countStudents } from "../repository/StudentRepository";
 import { Student } from "../models/StudentModels";
 
 export const getAllStudentsService = async (): Promise<Student[]> => {
@@ -19,4 +19,7 @@ export const deleteStudentService = async(id: number): Promise<void> =>{
 
 export const updateStudentService = async(id: number, student: Partial<Student>): Promise<Student | null> =>{
   return await updateStudent(id, student);
+}
+export const getStudentCountService = async (): Promise<number> => {
+  return await countStudents();
 }
