@@ -5,6 +5,7 @@ import {
   createStudentService,
   deleteStudentService,
   updateStudentService,
+  getStudentCountService
 } from "../service/StudentService";
 
 export const getAllStudentsController = async(req: Request, res: Response) => {
@@ -48,6 +49,14 @@ export const patchStuentController = async(req: Request, res: Response) => {
     const updated = await updateStudentService(id, req.body);
     if (!updated) return res.status(404).json({ error: "Student not found" });
     res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+}
+export const getStudentCountController = async(req: Request, res: Response) => {
+  try {
+    const count = await getStudentCountService();
+    res.json({ count });
   } catch (err) {
     res.status(500).json({ error: "Server error" });
   }
